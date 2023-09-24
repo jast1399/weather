@@ -2,3 +2,4 @@ venv/
 instance
 applications
 components
+flaskr/__pycache__
