@@ -2,4 +2,6 @@ venv/
 instance
 applications
 components
-flaskr/__pycache__
+*/__pycache__
+.vscode/settings.json
+.coverage
