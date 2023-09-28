@@ -1,7 +1,5 @@
 venv/
 instance
-applications
-components
 */__pycache__
 .vscode/settings.json
 .coverage

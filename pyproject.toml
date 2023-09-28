@@ -1,7 +1,7 @@
 [project]
-name = "flaskr"
+name = "weather"
 version = "1.0.0"
-description = "The basic blog app built in the Flask tutorial."
+description = "A basic weather app to compare forecasts with actual data."
 dependencies = [
     "flask",
 ]
@@ -15,4 +15,4 @@ testpaths = ["tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["flaskr"]
+source = ["weather"]
