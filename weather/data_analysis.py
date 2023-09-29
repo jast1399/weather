@@ -1,5 +1,5 @@
 import click
-import datetime
+from flask import url_for
 import matplotlib.dates as mdates
 import numpy as np
 
@@ -41,7 +41,7 @@ def generate_plot():
     generate_temperature_plot(axs[0])
     generate_difference_plot(axs[1])
     
-    plot_url = 'weather/static/plot.png'
+    plot_url = url_for('static', filename='plot.png')
     fig.savefig(plot_url, format="png")
 
 def generate_temperature_plot(ax):

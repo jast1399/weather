@@ -1,9 +1,6 @@
-import sqlite3
-
 import requests
 import click
 import datetime
-from flask import current_app, g
 from weather.db import get_db
 
 forecast_url = 'https://api.open-meteo.com/v1/forecast?latitude=40.015&longitude=-105.2706&start_date={start}&end_date={end}&hourly=temperature_2m&timezone=America%2FDenver'
