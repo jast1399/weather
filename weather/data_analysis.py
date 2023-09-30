@@ -1,5 +1,6 @@
-import click
-from flask import url_for
+import base64
+from io import BytesIO
+from flask import Blueprint
 import matplotlib.dates as mdates
 import numpy as np
 
@@ -9,6 +10,7 @@ from matplotlib.figure import Figure
 
 from weather.db import get_db
 
+bp = Blueprint('analysis', __name__)
 
 def get_forecast_data():
     db = get_db()
@@ -34,15 +36,20 @@ def get_diff():
     )
     return zip(*diff)
 
-def generate_plot():
+@bp.route('/')
+def index():
     fig = Figure()
     axs = fig.subplots(nrows=2, sharex=True)
     
     generate_temperature_plot(axs[0])
     generate_difference_plot(axs[1])
     
-    plot_url = url_for('static', filename='plot.png')
-    fig.savefig(plot_url, format="png")
+    # Save it to a temporary buffer.
+    buf = BytesIO()
+    fig.savefig(buf, format="png")
+    # Embed the result in the html output.
+    data = base64.b64encode(buf.getbuffer()).decode("ascii")
+    return f"<img src='data:image/png;base64,{data}'/>"
 
 def generate_temperature_plot(ax):
     ftimes, ftemps = get_forecast_data()
@@ -82,11 +89,3 @@ def generate_difference_plot(ax):
     ax.set_xlabel('Date')
 
     
-@click.command('plot-data')
-def plot_command():
-    """Plot the stored data."""
-    generate_plot()
-    click.echo('Plot saved.')
-
-def init_app(app):
-    app.cli.add_command(plot_command)    

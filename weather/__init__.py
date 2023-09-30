@@ -1,12 +1,6 @@
-import datetime
 import os
-import base64
-from io import BytesIO
 
-from flask import Flask, url_for
-from matplotlib.figure import Figure
-import matplotlib.dates as mdates
-import matplotlib.ticker as ticker
+from flask import Flask
 
 def create_app(test_config=None):
     # create and configure the app
@@ -28,13 +22,6 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    # a simple page that says hello
-    @app.route('/')
-    def index():
-        plot_url = url_for('static', filename='plot.png')
-
-        return f"<img src={plot_url}/>"
     
     from . import db
     db.init_app(app)
@@ -43,14 +30,7 @@ def create_app(test_config=None):
     data_collection.init_app(app)
 
     from . import data_analysis
-    data_analysis.init_app(app)
-
-    # from . import auth
-    # app.register_blueprint(auth.bp)
-
-    # from . import blog
-    # app.register_blueprint(blog.bp)
-    # app.add_url_rule('/', endpoint='index')
-    
+    app.register_blueprint(data_analysis.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app

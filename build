@@ -1,4 +1,0 @@
-python -m venv .venv
-. .venv/bin/activate
-pip install .  
-pip install gunicorn

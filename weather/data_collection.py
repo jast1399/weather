@@ -1,5 +1,4 @@
 import requests
-import click
 import datetime
 from weather.db import get_db
 
@@ -37,17 +36,7 @@ def get_monthly_history():
 
     db.commit()
 
-@click.command('get-forecast')
-def get_forecast_command():
-    """Get the forecast for the last month."""
-    get_monthly_forecast()
-    click.echo('Forecast data saved.')
-@click.command('get-history')
-def get_history_command():
-    """Get the history for the last month."""
-    get_monthly_history()
-    click.echo('History data saved.')
-
 def init_app(app):
-    app.cli.add_command(get_forecast_command)    
-    app.cli.add_command(get_history_command)
+    with app.app_context():
+        get_monthly_forecast()
+        get_monthly_history()
